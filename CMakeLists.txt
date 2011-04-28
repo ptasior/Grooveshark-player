@@ -5,6 +5,9 @@ find_package(Qt4 REQUIRED)
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR})
 
 set(Grooveshark_SRCS Grooveshark.cpp main.cpp)
+
+qt4_add_resources(QtApp_RCC_SRCS resources.qrc)
 qt4_automoc(${Grooveshark_SRCS})
-add_executable(Grooveshark ${Grooveshark_SRCS})
-target_link_libraries(Grooveshark ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
+
+add_executable(Grooveshark ${Grooveshark_SRCS} ${QtApp_RCC_SRCS})
+target_link_libraries(Grooveshark ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTWEBKIT_LIBRARY} ${QT_QTNETWORK_LIBRARY})
