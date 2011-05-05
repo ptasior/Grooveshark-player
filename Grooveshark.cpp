@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QCloseEvent>
 #include <QWebFrame>
+#include "cookiejar.h"
 
 Grooveshark::Grooveshark()
 {
@@ -12,9 +13,10 @@ Grooveshark::Grooveshark()
 	connect(view, SIGNAL(loadProgress(int)), SLOT(setProgress(int)));
 	connect(view, SIGNAL(loadFinished(bool)), SLOT(finishLoading(bool)));
 	
+	cookieJar = new CookieJar();
+	cookieJar->read();
 	view->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
-	view->page()->networkAccessManager()->setCookieJar( new QNetworkCookieJar() );
-	view->load(QUrl("http://grooveshark.com/"));
+	view->page()->networkAccessManager()->setCookieJar(cookieJar);
 	
 	tray = new QSystemTrayIcon;
 	menu = new QMenu;
@@ -28,7 +30,7 @@ Grooveshark::Grooveshark()
 	connect(acPlay, SIGNAL(triggered()), this, SLOT(play()));
 	connect(acNext, SIGNAL(triggered()), this, SLOT(next()));
 	connect(acPrev, SIGNAL(triggered()), this, SLOT(prev()));
-	connect(acClose, SIGNAL(triggered()), this, SLOT(close()));
+	connect(acClose, SIGNAL(triggered()), this, SLOT(closeAct()));
 	connect(acRefersh, SIGNAL(triggered()), this, SLOT(reload()));
 
 	menu->addAction(acPlay);
@@ -41,19 +43,27 @@ Grooveshark::Grooveshark()
 	tray->setContextMenu(menu);
 	tray->setIcon(QIcon(":/favicon.png"));
 	tray->show();
+	
+	// Has to be executed after initialisation of actions
+	view->load(QUrl("http://grooveshark.com/"));
+// 	view->load(QUrl("./cookie.html"));
+	
+	frame = NULL;
 }
 
 Grooveshark::~Grooveshark()
 {
-	
+	cookieJar->save();
+	view->close();
 }
 
 void Grooveshark::closeEvent(QCloseEvent* event)
 {
-	if (!tray->isVisible())
-		return;
-	hide();
-	event->ignore();
+	if (tray->isVisible())
+	{
+		hide();
+		event->ignore();
+	}
 }
 
 void Grooveshark::iconActivated(QSystemTrayIcon::ActivationReason reason)
@@ -73,24 +83,25 @@ void Grooveshark::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void Grooveshark::play()
 {
-	QWebFrame *frame = view->page()->mainFrame();
-	frame->evaluateJavaScript("document.getElementById('player_play_pause').click()");
+	if(frame)
+		frame->evaluateJavaScript("document.getElementById('player_play_pause').click()");
 }
 
 void Grooveshark::next()
 {
-	QWebFrame *frame = view->page()->mainFrame();
-	frame->evaluateJavaScript("document.getElementById('player_next').click()");
+	if(frame)
+		frame->evaluateJavaScript("document.getElementById('player_next').click()");
 }
 
 void Grooveshark::prev()
 {
-	QWebFrame *frame = view->page()->mainFrame();
-	frame->evaluateJavaScript("document.getElementById('player_previous').click()");
+	if(frame)
+		frame->evaluateJavaScript("document.getElementById('player_previous').click()");
 }
 
-void Grooveshark::close()
+void Grooveshark::closeAct()
 {
+	tray->hide();
 	close();
 }
 
@@ -102,11 +113,26 @@ void Grooveshark::reload()
 void Grooveshark::setProgress(int p)
 {
 	setWindowTitle(QString("Groveshark (loadnig %1%)").arg(p));
+	frame = NULL;
+	acPlay->setDisabled(true);
+	acNext->setDisabled(true);
+	acPrev->setDisabled(true);
 }
 
 void Grooveshark::finishLoading(bool done)
 {
-	qDebug() << "loaded";
+	setWindowTitle("Groveshark");
+	frame = view->page()->mainFrame();
+	acPlay->setDisabled(false);
+	acNext->setDisabled(false);
+	acPrev->setDisabled(false);
+
+	// Advertisment removing
+	if(!frame)
+		return;
+	frame->evaluateJavaScript("var e = document.getElementById('capital');"
+							"e.parentNode.removeChild(e);"
+							"setTimeout(\"document.getElementById('application').style.marginRight = '0'\",50);");
 }
 
 #include "Grooveshark.moc"

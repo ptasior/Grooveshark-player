@@ -3,10 +3,10 @@
 
 #include <QtGui/QMainWindow>
 #include <QWebView>
-#include <QNetworkCookieJar>
 #include <QSystemTrayIcon>
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
+#include "cookiejar.h"
 
 class Grooveshark : public QMainWindow
 {
@@ -19,7 +19,7 @@ Q_OBJECT
 		void play();
 		void next();
 		void prev();
-		void close();
+		void closeAct();
 		void reload();
 		void iconActivated(QSystemTrayIcon::ActivationReason reason);
 		void setProgress(int p);
@@ -36,6 +36,8 @@ Q_OBJECT
 		QAction *acPrev;
 		QAction *acClose;
 		QAction *acRefersh;
+		QWebFrame *frame;
+		CookieJar *cookieJar;
 };
 
 #endif // Grooveshark_H

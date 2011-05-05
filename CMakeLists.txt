@@ -4,7 +4,7 @@ find_package(Qt4 REQUIRED)
 
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR})
 
-set(Grooveshark_SRCS Grooveshark.cpp main.cpp)
+set(Grooveshark_SRCS Grooveshark.cpp cookiejar.cpp main.cpp)
 
 qt4_add_resources(QtApp_RCC_SRCS resources.qrc)
 qt4_automoc(${Grooveshark_SRCS})
