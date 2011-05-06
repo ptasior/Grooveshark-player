@@ -1,12 +1,12 @@
-QT          += core gui webkit network
-TARGET       = Grooveshark
-TEMPLATE     = app
+QT			+= core gui webkit network
+TARGET		= Grooveshark
+TEMPLATE	= app
 
-SOURCES += cookiejar.cpp \
-    main.cpp \
-    Grooveshark.cpp
+SOURCES += main.cpp \
+	cookiejar.cpp \
+	grooveshark.cpp
 
-HEADERS += Grooveshark.h \
-    cookiejar.h
+HEADERS += grooveshark.h \
+	cookiejar.h
 
 RESOURCES += resources.qrc

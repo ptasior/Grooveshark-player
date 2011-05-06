@@ -7,6 +7,7 @@
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
 #include "cookiejar.h"
+#include <QTimer>
 
 class Grooveshark : public QMainWindow
 {
@@ -24,6 +25,7 @@ Q_OBJECT
 		void iconActivated(QSystemTrayIcon::ActivationReason reason);
 		void setProgress(int p);
 		void finishLoading(bool done);
+		void onTimer();
 
 	private:
 		void closeEvent(QCloseEvent *event);
@@ -38,6 +40,7 @@ Q_OBJECT
 		QAction *acRefersh;
 		QWebFrame *frame;
 		CookieJar *cookieJar;
+		QTimer *timer;
 };
 
 #endif // GROOVESHARK_H

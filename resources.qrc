@@ -1,6 +1,12 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
 <qresource>
-	<file>favicon.png</file>
+	<file alias="icon.png">img/icon.png</file>
+	<file alias="close.png">img/close.png</file>
+	<file alias="next.png">img/next.png</file>
+	<file alias="prev.png">img/prev.png</file>
+	<file alias="play.png">img/play.png</file>
+	<file alias="pause.png">img/pause.png</file>
+	<file alias="refresh.png">img/refresh.png</file>
 </qresource>
 </RCC>
