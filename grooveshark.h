@@ -1,5 +1,5 @@
-#ifndef Grooveshark_H
-#define Grooveshark_H
+#ifndef GROOVESHARK_H
+#define GROOVESHARK_H
 
 #include <QtGui/QMainWindow>
 #include <QWebView>
@@ -12,7 +12,7 @@ class Grooveshark : public QMainWindow
 {
 Q_OBJECT
 	public:
-		Grooveshark();
+		Grooveshark(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 		virtual ~Grooveshark();
 	
 	public slots:
@@ -40,4 +40,4 @@ Q_OBJECT
 		CookieJar *cookieJar;
 };
 
-#endif // Grooveshark_H
+#endif // GROOVESHARK_H

@@ -1,10 +1,11 @@
-#include "Grooveshark.h"
 #include <QDebug>
 #include <QCloseEvent>
 #include <QWebFrame>
+#include "grooveshark.h"
 #include "cookiejar.h"
 
-Grooveshark::Grooveshark()
+Grooveshark::Grooveshark(QWidget* parent, Qt::WindowFlags flags):
+	QMainWindow(parent, flags)
 {
 	resize(1000, 600);
 	view = new QWebView;
@@ -45,7 +46,6 @@ Grooveshark::Grooveshark()
 	tray->show();
 	
 	// Has to be executed after initialisation of actions
-// 	view->load(QUrl("./cookie.html"));
 	view->load(QUrl("http://grooveshark.com/"));
 	
 	frame = NULL;
@@ -89,9 +89,9 @@ void Grooveshark::play()
 
 void Grooveshark::next()
 {
-	view->load(QUrl("./cookie.html"));
-// 	if(frame)
-// 		frame->evaluateJavaScript("document.getElementById('player_next').click()");
+// 	view->load(QUrl("./cookie.html"));
+	if(frame)
+		frame->evaluateJavaScript("document.getElementById('player_next').click()");
 }
 
 void Grooveshark::prev()
@@ -133,7 +133,9 @@ void Grooveshark::finishLoading(bool done)
 		return;
 	frame->evaluateJavaScript("var e = document.getElementById('capital');"
 							"e.parentNode.removeChild(e);"
-							"setTimeout(\"document.getElementById('application').style.marginRight = '0'\",50);");
+							"setTimeout(\"document.getElementById('application').style.marginRight = '0'\",200);");
+	
+// Activating timeout form
+// var f = document.getElementById('interactionTimeForm');
+// f.getElementsByTagName('button')[0].click();
 }
-
-#include "Grooveshark.moc"

@@ -1,20 +1,14 @@
 #include <QtGui/QApplication>
-#include "Grooveshark.h"
 #include <QDebug>
+#include "grooveshark.h"
 
 
 int main(int argc, char** argv)
 {
 	QApplication app(argc, argv);
 	Q_INIT_RESOURCE(resources);
-	Grooveshark foo;
-	try
-	{
-		foo.show();
-		return app.exec();
-	}
-	catch(...)
-	{
-		qDebug() << "crash!!!!";
-	}
+	
+	Grooveshark w;
+	w.show();
+	return app.exec();
 }
