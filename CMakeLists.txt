@@ -1,6 +1,10 @@
+# set(CMAKE_CXX_COMPILER i586-mingw32msvc-g++)
+# set(CMAKE_CC_COMPILER i586-mingw32msvc-gcc)
+
 project(Grooveshark)
 cmake_minimum_required(VERSION 2.6)
 find_package(Qt4 REQUIRED)
+
 
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR})
 

@@ -45,8 +45,8 @@ Grooveshark::Grooveshark()
 	tray->show();
 	
 	// Has to be executed after initialisation of actions
-	view->load(QUrl("http://grooveshark.com/"));
 // 	view->load(QUrl("./cookie.html"));
+	view->load(QUrl("http://grooveshark.com/"));
 	
 	frame = NULL;
 }
@@ -89,8 +89,9 @@ void Grooveshark::play()
 
 void Grooveshark::next()
 {
-	if(frame)
-		frame->evaluateJavaScript("document.getElementById('player_next').click()");
+	view->load(QUrl("./cookie.html"));
+// 	if(frame)
+// 		frame->evaluateJavaScript("document.getElementById('player_next').click()");
 }
 
 void Grooveshark::prev()
