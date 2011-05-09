@@ -142,18 +142,8 @@ void Grooveshark::finishLoading(bool done)
 
 void Grooveshark::onTimer()
 {
-	// Removing advertisment and clicking on idille monit
 	if(!frame)
 		return;
-	
-	frame->evaluateJavaScript("document.getElementById('application').style.marginRight = '0';"
-		"var f = document.getElementById('interactionTimeForm');"
-		"f.getElementsByTagName('button')[0].click();"
-	);
-	
-// Activating timeout form
-// var f = document.getElementById('interactionTimeForm');
-// f.getElementsByTagName('button')[0].click();
 	
 	QString txt = frame->evaluateJavaScript("document.getElementById('player_play_pause').className").toString();
 	txt = txt.right(txt.length()-15);
